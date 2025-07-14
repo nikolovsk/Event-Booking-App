@@ -1,0 +1,33 @@
+<th:block xmlns:th="http://www.thymeleaf.org">
+    <main>
+        <form th:method="POST" th:action="@{/listLocations}">
+            <h2>All Locations:</h2>
+
+            <div th:each="location : ${locations}">
+                <input type="radio" id="loc" name="loc" th:value="${location.getName()}" />
+                <div>
+                    <p>
+                        Name: <th:block th:text="${location.getName()}"></th:block>,
+                        Address: <th:block th:text="${location.getAddress()}"></th:block>,
+                        Capacity: <th:block th:text="${location.getCapacity}"></th:block>,
+                        Description: <th:block th:text="${location.getDescription()}"></th:block>
+                    </p>
+                    <div>
+                        <th:block>
+                            <form th:action="@{'/locations/delete/{id}' (id=${location.getId()})}"
+                                  th:method="DELETE">
+                                <button type="submit" class="btn btn-danger">
+                                    <i>Delete</i>
+                                </button>
+                            </form>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+
+        <div>
+            <a href="/locations/add-form" class="btn btn-dark">Add new location</a>
+        </div>
+        </form>
+    </main>
+</th:block>
