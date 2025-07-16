@@ -2,6 +2,7 @@ package mk.finki.ukim.mk.lab.web.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import mk.finki.ukim.mk.lab.model.Event;
+import mk.finki.ukim.mk.lab.model.Location;
 import mk.finki.ukim.mk.lab.model.SavedBooking;
 import mk.finki.ukim.mk.lab.service.EventService;
 import mk.finki.ukim.mk.lab.service.SavedBookingService;
@@ -37,7 +38,6 @@ public class EventBookingController {
         model.addAttribute("bookings", bookings);
         model.addAttribute("bodyContent", "bookingConfirmation");
         return "master-template";
-        //return "bookingConfirmation";
     }
 
     @PostMapping
@@ -46,13 +46,15 @@ public class EventBookingController {
             String eventName = req.getParameter("rad");
             int numOfTickets = Integer.parseInt(req.getParameter("numTickets"));
             String hostName = req.getParameter("hostName");
+            Event event = this.eventService.findByName(eventName).orElseThrow();
+            String location = event.getLocation().getAddress();
 
             this.savedBookingService.save(hostName, eventName, numOfTickets);
 
             model.addAttribute("hostName", hostName);
             model.addAttribute("eventName", eventName);
             model.addAttribute("numTickets", numOfTickets);
-            model.addAttribute("location", eventName); // ако немаш посебна локација
+            model.addAttribute("location", location);
             model.addAttribute("clientIp", req.getRemoteAddr());
             model.addAttribute("bodyContent", "bookingConfirmation");
 

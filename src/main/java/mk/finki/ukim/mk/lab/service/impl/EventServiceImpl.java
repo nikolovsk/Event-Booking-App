@@ -41,6 +41,11 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    public Optional<Event> findByName(String name) {
+        return eventRepositoryNewImpl.findByName(name);
+    }
+
+    @Override
     public void deleteById(Long id) {
         this.eventRepositoryNewImpl.deleteById(id);
     }
