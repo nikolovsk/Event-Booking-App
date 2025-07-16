@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,9 +48,10 @@ public class EventController {
     public String saveEvent(@RequestParam String name,
                             @RequestParam String description,
                             @RequestParam Double popularityScore,
-                            @RequestParam Long location) {
+                            @RequestParam Long location,
+                            @RequestParam LocalDate date) {
 
-        this.eventService.save(name, description, popularityScore, location);
+        this.eventService.save(name, description, popularityScore, location, date);
         return "redirect:/events";
     }
 

@@ -5,6 +5,7 @@ import mk.finki.ukim.mk.lab.model.Event;
 import mk.finki.ukim.mk.lab.model.Location;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -30,9 +31,10 @@ public class EventRepository {
         return DataHolder.events.stream().filter(r-> r.getId().equals(id)).findFirst();
     }
 
-    public Optional<Event> save (String name, String description, Double popularityScore, Location location) {
+    public Optional<Event> save (String name, String description, Double popularityScore,
+                                 Location location, LocalDate date) {
         DataHolder.events.removeIf(r-> r.getName().equals(name));
-        Event event = new Event(name, description, popularityScore, location);
+        Event event = new Event(name, description, popularityScore, location, date);
         DataHolder.events.add(event);
         return Optional.of(event);
     }

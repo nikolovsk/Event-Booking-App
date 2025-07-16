@@ -25,6 +25,10 @@
                 <td th:text="${eventName} ?: 'Oppenheimer'"></td>
             </tr>
             <tr>
+                <td><b>Date</b></td>
+                <td th:text="${date} ?: '01/01/2025'"></td>
+            </tr>
+            <tr>
                 <td><b>Event Location</b></td>
                 <td th:text="${location} ?: 'Location 1'"></td>
             </tr>
@@ -36,14 +40,6 @@
         </table>
 
         <a class="btn btn-secondary" href="/events">Back</a>
-
-        <!--<form th:method="GET" th:action="@{/eventBookingController}">
-            <label for="bookingSearch">Search Booking By Name</label>
-            <input type="text" id="bookingSearch" name="bookingSearch" class="form-control w-50 mb-2">
-            <br>
-            <input type="submit" class="btn btn-primary" value="Submit" />
-            <a class="btn btn-secondary" href="/events">Back</a>
-        </form>-->
     </section>
     </main>
 </th:block>

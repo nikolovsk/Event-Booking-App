@@ -37,6 +37,7 @@
                 <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
                     <input type="radio" name="rad" th:value="${event.name}" />
                     <strong th:text="${event.name}"></strong><br/>
+                    Date: <span th:text="${#temporals.format(event.date, 'dd/MM/yyyy')}"></span><br/>
                     Description: <span th:text="${event.description}"></span><br/>
                     Rating: <span th:text="${event.popularityScore != null ? event.popularityScore : 1.0}"></span><br/>
                     Location: <span th:text="${event.location != null ? event.location.name : 'No location'}"></span><br/>

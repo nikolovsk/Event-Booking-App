@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +50,8 @@ public class EventBookingController {
             String hostName = req.getParameter("hostName");
             Event event = this.eventService.findByName(eventName).orElseThrow();
             String location = event.getLocation().getAddress();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            String date = event.getDate().format(formatter);
 
             this.savedBookingService.save(hostName, eventName, numOfTickets);
 
@@ -55,6 +59,7 @@ public class EventBookingController {
             model.addAttribute("eventName", eventName);
             model.addAttribute("numTickets", numOfTickets);
             model.addAttribute("location", location);
+            model.addAttribute("date", date);
             model.addAttribute("clientIp", req.getRemoteAddr());
             model.addAttribute("bodyContent", "bookingConfirmation");
 

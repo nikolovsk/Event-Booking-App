@@ -9,6 +9,7 @@ import mk.finki.ukim.mk.lab.repository.jpa.LocationRepositoryNewImpl;
 import mk.finki.ukim.mk.lab.service.EventService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,7 +52,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Optional<Event> save(String name, String description, Double popularityScore, Long locationId) {
+    public Optional<Event> save(String name, String description, Double popularityScore, Long locationId, LocalDate date) {
         Location location = this.locationRepositoryNewImpl.findById(locationId)
                 .orElseThrow(()-> new LocationNotFoundException(locationId));
 
@@ -59,7 +60,7 @@ public class EventServiceImpl implements EventService {
             this.eventRepositoryNewImpl.deleteByName(name);
         }
 
-        return Optional.of(this.eventRepositoryNewImpl.save(new Event(name, description, popularityScore, location)));
+        return Optional.of(this.eventRepositoryNewImpl.save(new Event(name, description, popularityScore, location, date)));
     }
 
 }

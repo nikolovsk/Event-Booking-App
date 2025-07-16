@@ -2,6 +2,7 @@ package mk.finki.ukim.mk.lab.service;
 
 import mk.finki.ukim.mk.lab.model.Event;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,5 +14,5 @@ public interface EventService {
     Optional<Event> findByName(String name);
 
     void deleteById(Long id);
-    Optional<Event> save(String name, String description, Double popularityScore, Long locationId);
+    Optional<Event> save(String name, String description, Double popularityScore, Long locationId, LocalDate date);
 }
