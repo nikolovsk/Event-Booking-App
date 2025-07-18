@@ -49,7 +49,7 @@ public class EventBookingController {
             int numOfTickets = Integer.parseInt(req.getParameter("numTickets"));
             String hostName = req.getParameter("hostName");
             Event event = this.eventService.findByName(eventName).orElseThrow();
-            String location = event.getLocation().getAddress();
+            String location = event.getLocation().getName();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             String date = event.getDate().format(formatter);
 
