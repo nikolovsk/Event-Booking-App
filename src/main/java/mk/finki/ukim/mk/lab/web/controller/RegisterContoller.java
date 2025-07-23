@@ -40,10 +40,9 @@ public class RegisterContoller {
                            @RequestParam String password,
                            @RequestParam String repeatPassword,
                            @RequestParam String name,
-                           @RequestParam String surname,
-                           @RequestParam Role role) {
+                           @RequestParam String surname) {
         try {
-            this.userService.register(username, password, repeatPassword, name, surname, role);
+            this.userService.register(username, password, repeatPassword, name, surname, Role.ROLE_USER);
             return "redirect:/login";
         } catch (PasswordsDoNotMatchException | InvalidArgumentsException exception) {
             return "redirect:/register?error=" + exception.getMessage();
