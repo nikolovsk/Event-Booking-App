@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface EventRepositoryNewImpl extends JpaRepository<Event, Long> {
+public interface EventRepositoryNewImpl extends JpaSpecificationRepository<Event, Long> {
     List<Event> searchEventByNameContainingOrDescriptionContaining(String name, String description);
     Optional<Event> findByName(String name);
     void deleteByName(String name);

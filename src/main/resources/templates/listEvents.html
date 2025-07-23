@@ -17,8 +17,19 @@
     <main>
         <h2>Search an event:</h2>
         <form th:method="GET" th:action="@{/events}">
-            <label for="search">By Event Name:</label>
-            <input id="search" type="text" name="searchName" placeholder="Search an event">
+            <label for="searchName">By Event Name:</label>
+            <input id="searchName" type="text" th:value="${name}" name="name" placeholder="Search an event">
+            <br/>
+            <label for="locationSelect">By Location:</label>
+            <select name="locationId" id="locationSelect">
+                <option value="">All locations</option>
+                <option th:each="loc : ${locations}"
+                        th:value="${loc.getId()}"
+                        th:text="${loc.getName()}"
+                        th:selected="${locationId != null && locationId == loc.getId()}">
+                </option>
+            </select>
+
             <br/>
             <label for="minRating">By Minimum Event Rating (0 - 10): </label>
             <input id="minRating" type="number" name="minRating" min="0" max="10" placeholder="Min Rating">
@@ -33,7 +44,7 @@
         <form th:method="POST" th:action="@{/eventBookingController}">
             <h2>Choose an event:</h2>
 
-            <div th:each="event : ${events}">
+            <div th:each="event : ${page.getContent()}">
                 <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
                     <input type="radio" name="rad" th:value="${event.name}" />
                     <strong th:text="${event.name}"></strong><br/>
@@ -50,6 +61,8 @@
                     </th:block>
                 </div>
             </div>
+
+            <div th:include="fragments/paging :: pageSection(${page})"></div>
 
             <h2>Enter Reservation Name:</h2>
             <input type="text" name="hostName"><br/><br/>

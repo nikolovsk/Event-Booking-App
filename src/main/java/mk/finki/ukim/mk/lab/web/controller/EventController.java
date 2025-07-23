@@ -4,6 +4,7 @@ import mk.finki.ukim.mk.lab.model.Event;
 import mk.finki.ukim.mk.lab.model.Location;
 import mk.finki.ukim.mk.lab.service.EventService;
 import mk.finki.ukim.mk.lab.service.LocationService;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,14 +26,27 @@ public class EventController {
     }
 
     @GetMapping
-    public String getEventsPage(@RequestParam(required = false) String error, Model model) {
+    public String getEventsPage(
+            @RequestParam(required = false) String error,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) Long locationId,
+            @RequestParam(required = false) Double minRating,
+            @RequestParam(defaultValue = "1") Integer pageNum,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            Model model
+    ) {
         if (error != null && !error.isEmpty()) {
             model.addAttribute("hasError", true);
             model.addAttribute("error", error);
         }
 
-        List<Event> events = this.eventService.listAll();
-        model.addAttribute("events", events);
+        Page<Event> page = this.eventService.findPage(name, locationId, minRating, pageNum, pageSize);
+        model.addAttribute("page", page);
+        model.addAttribute("locations", this.locationService.findAll());
+        model.addAttribute("name", name);
+        model.addAttribute("locationId", locationId);
+        model.addAttribute("minRating", minRating);
+
         model.addAttribute("bodyContent", "listEvents");
         return "master-template";
     }
