@@ -1,76 +1,254 @@
-<th:block xmlns:th="http://www.thymeleaf.org" >
-    <ul style="list-style-type: none">
-        <!--<ul class="nav navbar-nav navbar-right">
-            <li class="nav-item" sec:authorize="isAnonymous()" xmlns:sec="http://www.w3.org/1999/xhtml">
-                <a class="btn btn-light btn-sm ml-3" href="/login">
-                    <i class="fa-solid fa-right-to-bracket"></i> Login
-                </a>
-            </li>
-        </ul>-->
-        <li class="nav-item">
-            <a class="btn btn-light btn-sm ml-3" href="/logout">
-                <i class="fa-solid fa-right-from-bracket"></i> Logout
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>List Events</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <script src="https://kit.fontawesome.com/a2b1c2d3e4.js" crossorigin="anonymous"></script>
+</head>
+<body class="bg-light">
+
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm px-4 mb-4">
+    <a class="navbar-brand" href="/events">Event Manager</a>
+    <div class="ms-auto">
+        <a class="btn btn-outline-danger" href="/logout">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+    </div>
+</nav>
+
+<div class="container">
+
+    <div class="card mb-5">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Search Events</h5>
+        </div>
+        <div class="card-body">
+            <form class="row g-3" th:method="GET" th:action="@{/events}">
+                <div class="col-md-4">
+                    <label for="searchName" class="form-label">Event Name</label>
+                    <input id="searchName" type="text" class="form-control" name="name" th:value="${name}" placeholder="Search...">
+                </div>
+                <div class="col-md-4">
+                    <label for="locationSelect" class="form-label">Location</label>
+                    <select id="locationSelect" name="locationId" class="form-select">
+                        <option value="">All locations</option>
+                        <option th:each="loc : ${locations}" th:value="${loc.id}" th:text="${loc.name}" th:selected="${locationId != null && locationId == loc.id}"></option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="minRating" class="form-label">Minimum Rating (0 - 10)</label>
+                    <input type="number" id="minRating" name="minRating" class="form-control" min="0" max="10" placeholder="e.g. 5">
+                </div>
+                <div class="col-12 d-flex justify-content-end">
+                    <button type="submit" class="btn btn-success mt-2">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <div class="d-flex justify-content-between align-items-center mt-5 mb-3">
+        <h4 class="mb-0">Available Events</h4>
+        <a href="/events/add-form" class="btn btn-dark">
+            <i class="fas fa-plus-circle"></i> Add New Event
+        </a>
+    </div>
+
+
+    <form th:method="POST" th:action="@{/eventBookingController}">
+        <div class="mb-4">
+            <div th:each="event : ${page.getContent()}" class="card mb-3 shadow-sm">
+                <div class="card-body">
+                    <div class="form-check">
+                        <input type="radio" name="rad" class="form-check-input" th:value="${event.name}" id="event-${event.id}">
+                        <label class="form-check-label fw-bold" th:for="'event-' + ${event.id}" th:text="${event.name}"></label>
+                    </div>
+
+                    <p class="mb-1">
+                        <i class="fas fa-calendar-day me-2 text-success"></i>
+                        <strong>Date:</strong>
+                        <span th:text="${#temporals.format(event.date, 'dd/MM/yyyy')}"></span>
+                    </p>
+                    <p class="mb-1">
+                        <i class="fas fa-align-left me-2 text-info"></i>
+                        <strong>Description:</strong> <span th:text="${event.description}"></span>
+                    </p>
+                    <p class="mb-1">
+                        <i class="fas fa-star me-2 text-warning"></i>
+                        <strong>Rating:</strong>
+                        <span th:text="${event.popularityScore != null ? event.popularityScore : 1.0}"></span>
+                    </p>
+                    <p class="mb-1">
+                        <i class="fas fa-map-marker-alt me-2 text-danger"></i>
+                        <strong>Location:</strong>
+                        <span th:text="${event.location != null ? event.location.name : 'No location'}"></span>
+                    </p>
+
+                    <div sec:authorize="hasRole('ROLE_ADMIN')" class="mt-2">
+                        <a th:href="@{'/events/edit-form/{id}' (id=${event.id})}" class="btn btn-info btn-sm me-2">
+                            Edit
+                        </a>
+                        <form th:action="@{'/events/delete/{id}' (id=${event.id})}" th:method="DELETE" style="display:inline;">
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                Delete
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="card mb-5 mt-5">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Book Tickets</h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label for="hostName" class="form-label">Your Name</label>
+                    <input type="text" id="hostName" name="hostName" class="form-control" placeholder="e.g. Angela">
+                </div>
+                <div class="mb-3">
+                    <label for="numTickets" class="form-label">Number of Tickets</label>
+                    <input type="number" id="numTickets" name="numTickets" class="form-control" min="1" max="10">
+                </div>
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-ticket-alt"></i> Book Now
+                </button>
+            </div>
+        </div>
+    </form>
+
+
+    <div th:include="fragments/paging :: pageSection(${page})"></div>
+
+</div>
+
+</body>
+</html>-->
+
+<body class="bg-light">
+
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm px-4 mb-4">
+    <a class="navbar-brand" href="/events">Event Manager</a>
+    <div class="ms-auto" style="margin-left: 500px">
+        <a class="btn btn-outline-danger" href="/logout">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+    </div>
+</nav>
+
+
+<div class="d-flex justify-content-center">
+    <div class="w-100 px-3" style="max-width: 900px;">
+
+        <div class="card mb-5">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Search Events</h5>
+            </div>
+            <div class="card-body">
+                <form class="row g-3" th:method="GET" th:action="@{/events}">
+                    <div class="col-md-4">
+                        <label for="searchName" class="form-label">Event Name</label>
+                        <input id="searchName" type="text" class="form-control" name="name" th:value="${name}" placeholder="Search...">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="locationSelect" class="form-label">Location</label>
+                        <select id="locationSelect" name="locationId" class="form-control">
+                            <option value="">All locations</option>
+                            <option th:each="loc : ${locations}" th:value="${loc.id}" th:text="${loc.name}"
+                                    th:selected="${locationId != null && locationId == loc.id}"></option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="minRating" class="form-label">Minimum Rating (0 - 10)</label>
+                        <input type="number" id="minRating" name="minRating" class="form-control" min="0" max="10" placeholder="e.g. 5">
+                    </div>
+                    <div class="col-12 d-flex justify-content-end">
+                        <button type="submit" class="btn btn-success mt-2">
+                            <i class="fas fa-search"></i> Search
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mt-5 mb-3">
+            <h4 class="mb-0">Available Events</h4>
+            <a href="/events/add-form" class="btn btn-dark">
+                <i class="fas fa-plus-circle"></i> Add New Event
             </a>
-        </li>
-    </ul>
-    <br>
-    <main>
-        <h2>Search an event:</h2>
-        <form th:method="GET" th:action="@{/events}">
-            <label for="searchName">By Event Name:</label>
-            <input id="searchName" type="text" th:value="${name}" name="name" placeholder="Search an event">
-            <br/>
-            <label for="locationSelect">By Location:</label>
-            <select name="locationId" id="locationSelect">
-                <option value="">All locations</option>
-                <option th:each="loc : ${locations}"
-                        th:value="${loc.getId()}"
-                        th:text="${loc.getName()}"
-                        th:selected="${locationId != null && locationId == loc.getId()}">
-                </option>
-            </select>
-
-            <br/>
-            <label for="minRating">By Minimum Event Rating (0 - 10): </label>
-            <input id="minRating" type="number" name="minRating" min="0" max="10" placeholder="Min Rating">
-            <br/>
-            <input type="submit" value="Submit">
-        </form>
-
-        <div>
-            <a href="/events/add-form" class="btn btn-dark">Add new event</a>
         </div>
 
         <form th:method="POST" th:action="@{/eventBookingController}">
-            <h2>Choose an event:</h2>
+            <div class="mb-4">
+                <div th:each="event : ${page.getContent()}" class="card mb-3 shadow-sm">
+                    <div class="card-body">
+                        <div class="form-check mb-2">
+                            <input type="radio" name="rad" class="form-check-input"
+                                   th:value="${event.name}" id="event-${event.id}">
+                            <label class="form-check-label" style="font-weight: bold; font-size: 20px" th:for="'event-' + ${event.id}"
+                                   th:text="${event.name}"></label>
+                        </div>
 
-            <div th:each="event : ${page.getContent()}">
-                <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
-                    <input type="radio" name="rad" th:value="${event.name}" />
-                    <strong th:text="${event.name}"></strong><br/>
-                    Date: <span th:text="${#temporals.format(event.date, 'dd/MM/yyyy')}"></span><br/>
-                    Description: <span th:text="${event.description}"></span><br/>
-                    Rating: <span th:text="${event.popularityScore != null ? event.popularityScore : 1.0}"></span><br/>
-                    Location: <span th:text="${event.location != null ? event.location.name : 'No location'}"></span><br/>
+                        <p class="mb-1">
+                            <i class="fas fa-calendar-day me-2 text-success"></i>
+                            <strong>Date:</strong>
+                            <span th:text="${#temporals.format(event.date, 'dd/MM/yyyy')}"></span>
+                        </p>
+                        <p class="mb-1">
+                            <i class="fas fa-align-left me-2 text-info"></i>
+                            <strong>Description:</strong> <span th:text="${event.description}"></span>
+                        </p>
+                        <p class="mb-1">
+                            <i class="fas fa-star me-2 text-warning"></i>
+                            <strong>Rating:</strong>
+                            <span th:text="${event.popularityScore != null ? event.popularityScore : 1.0}"></span>
+                        </p>
+                        <p class="mb-1">
+                            <i class="fas fa-map-marker-alt me-2 text-danger"></i>
+                            <strong>Location:</strong>
+                            <span th:text="${event.location != null ? event.location.name : 'No location'}"></span>
+                        </p>
 
-                    <th:block sec:authorize="hasRole('ROLE_ADMIN')">
-                        <form th:action="@{'/events/delete/{id}' (id=${event.id})}" th:method="DELETE" style="display:inline;">
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
-                        <a th:href="@{'/events/edit-form/{id}' (id=${event.id})}" class="btn btn-info">Edit</a>
-                    </th:block>
+                        <div sec:authorize="hasRole('ROLE_ADMIN')" class="mt-2">
+                            <a th:href="@{'/events/edit-form/{id}' (id=${event.id})}"
+                               class="btn btn-info btn-sm me-2">Edit</a>
+                            <form th:action="@{'/events/delete/{id}' (id=${event.id})}" th:method="DELETE"
+                                  style="display:inline;">
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div th:include="fragments/paging :: pageSection(${page})"></div>
-
-            <h2>Enter Reservation Name:</h2>
-            <input type="text" name="hostName"><br/><br/>
-
-            <h2>Choose number of tickets:</h2>
-            <input type="number" name="numTickets" min="1" max="10"><br/><br/>
-
-            <input type="submit" value="Submit" class="mb-5">
+            <div class="card mb-5 mt-5">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Book Tickets</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="hostName" class="form-label">Your Name</label>
+                        <input type="text" id="hostName" name="hostName" class="form-control"
+                               placeholder="e.g. Jane Doe">
+                    </div>
+                    <div class="mb-3">
+                        <label for="numTickets" class="form-label">Number of Tickets</label>
+                        <input type="number" id="numTickets" name="numTickets" class="form-control" min="1" max="10">
+                    </div>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-ticket-alt"></i> Book Now
+                    </button>
+                </div>
+            </div>
         </form>
-    </main>
-</th:block>
+
+        <div th:include="fragments/paging :: pageSection(${page})"></div>
+
+    </div>
+</div>
+
+</body>
