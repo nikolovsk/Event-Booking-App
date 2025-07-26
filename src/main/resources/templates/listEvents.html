@@ -4,14 +4,14 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm px-4 mb-4">
     <div sec:authorize="hasRole('ROLE_ADMIN')" class="d-flex w-100 justify-content-between align-items-center">
-        <span class="me-5 fw-bold text-dark" style="margin-right: 400px">Event Manager</span>
+        <span class="me-5 fw-bold text-dark" style="margin-right: 400px; font-weight: bold">Event Manager</span>
         <a class="btn btn-outline-danger" href="/logout">
             <i class="fas fa-sign-out-alt"></i> Logout
         </a>
     </div>
 
     <div sec:authorize="hasRole('ROLE_USER')" class="ms-auto d-flex align-items-center">
-        <span class="me-5 fw-bold text-dark" style="margin-right: 400px">
+        <span class="me-5 fw-bold text-dark" style="margin-right: 400px; font-weight: bold">
             Welcome back, <span th:text="${currentUser.name + ' ' + currentUser.surname}"></span>!</span>
         <a class="btn btn-outline-danger" href="/logout">
             <i class="fas fa-sign-out-alt"></i> Logout

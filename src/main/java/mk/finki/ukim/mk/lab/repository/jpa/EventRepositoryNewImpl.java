@@ -14,4 +14,6 @@ public interface EventRepositoryNewImpl extends JpaSpecificationRepository<Event
     void deleteByName(String name);
 
     void deleteById(Long id);
+
+    List<Event> findAllByLocationId(Long id);
 }

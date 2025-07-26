@@ -15,11 +15,9 @@ import java.util.List;
 public class LocationController {
 
     private final LocationService locationService;
-    private final EventService eventService;
 
-    public LocationController(LocationService locationService, EventService eventService) {
+    public LocationController(LocationService locationService) {
         this.locationService = locationService;
-        this.eventService = eventService;
     }
 
     @GetMapping
@@ -47,9 +45,7 @@ public class LocationController {
 
     @DeleteMapping("/delete/{id}")
     public String deleteLocation(@PathVariable Long id) {
-        Location location = this.locationService.findById(id).orElseThrow();
         this.locationService.deleteById(id);
-        this.eventService.listAll().removeIf(r-> r.getLocation().getName().equals(location.getName()));
         return "redirect:/locations";
     }
 

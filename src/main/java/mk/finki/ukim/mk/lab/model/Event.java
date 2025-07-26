@@ -22,6 +22,7 @@ public class Event {
     private LocalDate date;
 
     @ManyToOne
+    @JoinColumn(name = "location_id", nullable = true)
     private Location location;
 
     public Event(String name, String description, double popularityScore, Location location, LocalDate date) {

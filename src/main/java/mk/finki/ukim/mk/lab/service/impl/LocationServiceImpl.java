@@ -1,6 +1,8 @@
 package mk.finki.ukim.mk.lab.service.impl;
 
+import mk.finki.ukim.mk.lab.model.Event;
 import mk.finki.ukim.mk.lab.model.Location;
+import mk.finki.ukim.mk.lab.repository.jpa.EventRepositoryNewImpl;
 import mk.finki.ukim.mk.lab.repository.jpa.LocationRepositoryNewImpl;
 import mk.finki.ukim.mk.lab.service.LocationService;
 import org.springframework.stereotype.Service;
@@ -12,9 +14,12 @@ import java.util.Optional;
 public class LocationServiceImpl implements LocationService {
 
     private final LocationRepositoryNewImpl locationRepositoryNewImpl;
+    private final EventRepositoryNewImpl eventRepository;
 
-    public LocationServiceImpl(LocationRepositoryNewImpl locationRepositoryNewImpl) {
+    public LocationServiceImpl(LocationRepositoryNewImpl locationRepositoryNewImpl,
+                               EventRepositoryNewImpl eventRepository) {
         this.locationRepositoryNewImpl = locationRepositoryNewImpl;
+        this.eventRepository = eventRepository;
     }
 
     @Override
@@ -39,6 +44,12 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public void deleteById(Long id) {
+        List<Event> events = eventRepository.findAllByLocationId(id);
+        for (Event event : events) {
+            event.setLocation(null);
+        }
+        eventRepository.saveAll(events);
+
         this.locationRepositoryNewImpl.deleteById(id);
     }
 }

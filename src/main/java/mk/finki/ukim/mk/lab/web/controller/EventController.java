@@ -37,8 +37,9 @@ public class EventController {
             @RequestParam(required = false) Double minRating,
             @RequestParam(defaultValue = "1") Integer pageNum,
             @RequestParam(defaultValue = "10") Integer pageSize,
-            Model model, Principal principal
-    ) {
+            Model model,
+            Principal principal) {
+
         if (error != null && !error.isEmpty()) {
             model.addAttribute("hasError", true);
             model.addAttribute("error", error);
@@ -47,8 +48,8 @@ public class EventController {
         Page<Event> page = this.eventService.findPage(name, locationId, minRating, pageNum, pageSize);
         String username = principal.getName();
         User user = userService.loadUserByUsername(username);
-        model.addAttribute("currentUser", user);
 
+        model.addAttribute("currentUser", user);
         model.addAttribute("page", page);
         model.addAttribute("locations", this.locationService.findAll());
         model.addAttribute("name", name);
