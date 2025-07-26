@@ -2,27 +2,31 @@ package mk.finki.ukim.mk.lab.web.controller;
 
 import mk.finki.ukim.mk.lab.model.Event;
 import mk.finki.ukim.mk.lab.model.Location;
+import mk.finki.ukim.mk.lab.model.User;
 import mk.finki.ukim.mk.lab.service.EventService;
 import mk.finki.ukim.mk.lab.service.LocationService;
+import mk.finki.ukim.mk.lab.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping({"/", "/events"})
 public class EventController {
     private final EventService eventService;
     private final LocationService locationService;
+    private final UserService userService;
 
-    public EventController(EventService eventService, LocationService locationService) {
+    public EventController(EventService eventService, LocationService locationService, UserService userService) {
         this.eventService = eventService;
         this.locationService = locationService;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -33,7 +37,7 @@ public class EventController {
             @RequestParam(required = false) Double minRating,
             @RequestParam(defaultValue = "1") Integer pageNum,
             @RequestParam(defaultValue = "10") Integer pageSize,
-            Model model
+            Model model, Principal principal
     ) {
         if (error != null && !error.isEmpty()) {
             model.addAttribute("hasError", true);
@@ -41,6 +45,10 @@ public class EventController {
         }
 
         Page<Event> page = this.eventService.findPage(name, locationId, minRating, pageNum, pageSize);
+        String username = principal.getName();
+        User user = userService.loadUserByUsername(username);
+        model.addAttribute("currentUser", user);
+
         model.addAttribute("page", page);
         model.addAttribute("locations", this.locationService.findAll());
         model.addAttribute("name", name);
