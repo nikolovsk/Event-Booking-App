@@ -1,44 +1,10 @@
-<!--<th:block xmlns:th="http://www.thymeleaf.org">
-    <main>
-        <form th:method="POST" th:action="@{/listLocations}">
-            <h2>All Locations:</h2>
-
-            <div th:each="location : ${locations}">
-                <input type="radio" id="loc" name="loc" th:value="${location.getName()}" />
-                <div>
-                    <p>
-                        Name: <th:block th:text="${location.getName()}"></th:block>,
-                        Address: <th:block th:text="${location.getAddress()}"></th:block>,
-                        Capacity: <th:block th:text="${location.getCapacity}"></th:block>,
-                        Description: <th:block th:text="${location.getDescription()}"></th:block>
-                    </p>
-                    <div>
-                        <th:block>
-                            <form th:action="@{'/locations/delete/{id}' (id=${location.getId()})}"
-                                  th:method="DELETE">
-                                <button type="submit" class="btn btn-danger">
-                                    <i>Delete</i>
-                                </button>
-                            </form>
-                        </th:block>
-                    </div>
-                </div>
-            </div>
-
-        <div>
-            <a href="/locations/add-form" class="btn btn-dark">Add new location</a>
-        </div>
-        </form>
-    </main>
-</th:block>-->
-
 <th:block xmlns:th="http://www.thymeleaf.org">
     <main class="container my-5">
         <h2 class="text-center mb-4">All Locations</h2>
 
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-            <div class="col" th:each="location : ${locations}">
-                <div class="card shadow-sm h-100 border-0">
+        <div class="row g-4">
+            <div class="col-12 col-md-6 mb-3" th:each="location : ${locations}">
+                <div class="card shadow-sm h-100 border-1">
                     <div class="card-body d-flex flex-column justify-content-between">
                         <div>
                             <h5 class="card-title text-primary fw-bold">
