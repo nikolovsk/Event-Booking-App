@@ -79,7 +79,7 @@ public class EventServiceImpl implements EventService {
 
         return this.eventRepositoryNewImpl.findAll(
                 specification,
-                PageRequest.of(pageNum - 1, pageSize, Sort.by(Sort.Direction.DESC, "name"))
+                PageRequest.of(pageNum - 1, pageSize, Sort.by(Sort.Direction.ASC, "date"))
         );
 
     }

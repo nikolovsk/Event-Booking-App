@@ -16,81 +16,91 @@
     <script src="https://kit.fontawesome.com/e59232f0a1.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div xmlns:th="http://www.thymeleaf.org">
-        <section class="jumbotron text-center">
-            <div class="container">
-                <h1>Welcome to our Event Booking App</h1>
-            </div>
-        </section>
-
+<div xmlns:th="http://www.thymeleaf.org">
+    <section class="jumbotron text-center">
         <div class="container">
-            <div class="row">
-                <div class="col-md-5">
-                    <form action="/events/add" method="post">
-                        <div class="form-group">
-                            <label for="name">Event name</label>
-                            <input type="text"
-                                   class="form-control"
-                                   id="name"
-                                   name="name"
-                                   th:value="(${event} != null ? ${event.getName()} : '')"
-                                   required
-                                   placeholder="Enter event name">
-                        </div>
-                        <div class="form-group">
-                            <label for="date">Date</label>
-                            <input type="date"
-                                   class="form-control"
-                                   id="date"
-                                   name="date"
-                                   th:value="(${event} != null ? ${event.getDate()} : '')"
-                                   required
-                                   placeholder="Enter event date">
-                        </div>
-                        <div class="form-group">
-                            <label for="description">Description</label>
-                            <input type="text"
-                                   class="form-control"
-                                   id="description"
-                                   name="description"
-                                   th:value="(${event} != null ? ${event.getDescription()} : '')"
-                                   required
-                                   placeholder="Description">
-                        </div>
-                        <div class="form-group">
-                            <label for="popularityScore">Popularity Score</label>
-                            <input type="text"
-                                   class="form-control"
-                                   id="popularityScore"
-                                   name="popularityScore"
-                                   th:value="(${event} != null ? ${event.getPopularityScore()} : '')"
-                                   required
-                                   placeholder="Popularity Score">
-                        </div>
-                        <div class="form-group">
-                            <label>Location</label>
-                            <select name="location" class="form-control">
-                                <option th:if="${event} != null"
-                                        th:selected="${event.getLocation() != null &&
-                                        event.getLocation().getId() == location.getId()}"
-                                        th:each="location : ${locations}"
-                                        th:value="${location.getId()}"
-                                        th:text="${location.getName()}">
-                                </option>
-                                <option th:if="${event} == null"
-                                        th:each="location : ${locations}"
-                                        th:value="${location.getId()}"
-                                        th:text="${location.getName()}">
-                                </option>
-                            </select>
-                        </div>
-
-                        <button id="submit" type="submit" class="btn btn-primary">Submit</button>
-                        <a type="button" class="btn btn-primary" href="/events">Back</a>
-                    </form>
-                </div>
-            </div>
+            <h1>Welcome to our Event Booking App</h1>
         </div>
-    </div>
+    </section>
+
+    <main class="container my-5">
+        <div class="card shadow-lg border-0 p-4 bg-white rounded-4">
+            <div class="card-header bg-primary text-white text-center mb-5">
+                <h4 class="mb-0 mt-1" >
+                    <i class="fas fa-calendar-plus me-2 text-white"></i>
+                    Add New Event
+                </h4>
+            </div>
+
+            <form action="/events/add" method="post">
+                <div class="form-group mb-3">
+                    <label for="name" class="fw-bold">Event name</label>
+                    <input type="text"
+                           class="form-control"
+                           id="name"
+                           name="name"
+                           th:value="(${event} != null ? ${event.getName()} : '')"
+                           required
+                           placeholder="Enter event name">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="date" class="fw-bold">Date</label>
+                    <input type="date"
+                           class="form-control"
+                           id="date"
+                           name="date"
+                           th:value="(${event} != null ? ${event.getDate()} : '')"
+                           required
+                           placeholder="Enter event date">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="description" class="fw-bold">Description</label>
+                    <textarea class="form-control"
+                           id="description"
+                           name="description"
+                           th:text="${event} != null ? ${event.getDescription()} : ''"
+                           required
+                           placeholder="Description"></textarea>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="popularityScore" class="fw-bold">Popularity Score</label>
+                    <input type="text"
+                           class="form-control"
+                           id="popularityScore"
+                           name="popularityScore"
+                           th:value="(${event} != null ? ${event.getPopularityScore()} : '')"
+                           required
+                           placeholder="Popularity Score">
+                </div>
+                <div class="form-group mb-4">
+                    <label class="fw-bold">Location</label>
+                    <select name="location" class="form-control">
+                        <option th:if="${event} != null"
+                                th:selected="${event.getLocation() != null &&
+                                event.getLocation().getId() == location.getId()}"
+                                th:each="location : ${locations}"
+                                th:value="${location.getId()}"
+                                th:text="${location.getName()}">
+                        </option>
+                        <option th:if="${event} == null"
+                                th:each="location : ${locations}"
+                                th:value="${location.getId()}"
+                                th:text="${location.getName()}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="text-center">
+                    <button id="submit" type="submit" class="btn btn-success px-4 py-2" style="margin-right: 20px">
+                        <i class="fas fa-check me-1"></i> Submit
+                    </button>
+                    <a type="button" class="btn btn-secondary px-4 py-2" href="/events" style="margin-left: 20px">
+                        <i class="fas fa-arrow-left me-1"></i> Back
+                    </a>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
 </body>
 </html>
