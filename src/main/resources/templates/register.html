@@ -1,38 +1,45 @@
-<div class="container mb-4">
-    <form class="form-signin mt-xl-5" method="post" action="/register">
-        <h2 class="form-signin-heading">Register</h2>
-        <p>
-            <label for="username" class="sr-only">Username</label>
-            <input type="text" id="username" name="username" class="form-control" placeholder="Username" required=""
-                   autofocus="">
-        </p>
-        <p>
-            <label for="password" class="sr-only">Password</label>
-            <input type="password" id="password" name="password" class="form-control" placeholder="Password"
-                   required="">
-        </p>
-        <p>
-            <label for="repeatPassword" class="sr-only">Repeat Password</label>
-            <input type="password" id="repeatPassword" name="repeatPassword" class="form-control"
-                   placeholder="Repeat Password" required="">
-        </p>
-        <p>
-            <label for="name" class="sr-only">Name</label>
-            <input type="text" id="name" name="name" class="form-control" placeholder="Name" required=""
-                   autofocus="">
-        </p>
-        <p>
-            <label for="surname" class="sr-only">Surname</label>
-            <input type="text" id="surname" name="surname" class="form-control" placeholder="Surname" required=""
-                   autofocus="">
-        </p>
-        <p>
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="card shadow-lg p-4" style="width: 100%; max-width: 500px;">
+        <form class="form-signin" method="post" action="/register">
+            <h2 class="text-center mb-4">Register</h2>
 
-        <th:block th:if="${hasError}">
-            <div th:text="${error}" class="text-danger"></div>
-        </th:block>
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" id="username" name="username" class="form-control" placeholder="Enter username" required autofocus>
+            </div>
 
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
-    </form>
-    <a href="/login" class="btn btn-block btn-light">Already have an account? Login here!</a>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" id="password" name="password" class="form-control" placeholder="Enter password" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="repeatPassword" class="form-label">Repeat Password</label>
+                <input type="password" id="repeatPassword" name="repeatPassword" class="form-control" placeholder="Confirm password" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="name" class="form-label">First Name</label>
+                <input type="text" id="name" name="name" class="form-control" placeholder="Enter your name" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="surname" class="form-label">Last Name</label>
+                <input type="text" id="surname" name="surname" class="form-control" placeholder="Enter your surname" required>
+            </div>
+
+            <th:block th:if="${hasError}">
+                <div th:text="${error}" class="text-danger mb-3"></div>
+            </th:block>
+
+            <div class="text-center">
+                <button class="btn btn-primary px-5" type="submit">Sign up</button>
+            </div>
+        </form>
+
+        <div class="text-center mt-3">
+            <a href="/login" class="btn btn-link">Already have an account? Login here!</a>
+        </div>
+
+    </div>
 </div>
