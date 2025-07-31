@@ -11,7 +11,7 @@
     </div>
 
     <div sec:authorize="hasRole('ROLE_USER')" class="ms-auto d-flex align-items-center">
-        <span class="me-5 fw-bold text-dark" style="margin-right: 400px; font-weight: bold">
+        <span class="fw-bold text-dark" style="margin-right: 380px; font-weight: bold">
             Welcome back, <span th:text="${currentUser.name + ' ' + currentUser.surname}"></span>!</span>
         <a class="btn btn-outline-danger" href="/logout">
             <i class="fas fa-sign-out-alt"></i> Logout
