@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: events-db
+  labels:
+    app: events-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: events-db
+  template:
+    metadata:
+      labels:
+        app: events-db
+    spec:
+      containers:
+        - name: events-db
+          image: postgres:17
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: wp
+            - name: POSTGRES_PASSWORD
+              value: wp123
+            - name: POSTGRES_DB
+              value: events
+          readinessProbe:
+            tcpSocket:
+              port: 5432
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgres-data
+      volumes:
+        - name: postgres-data
+          emptyDir: {}
+

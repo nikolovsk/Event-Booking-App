@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: events-app
+  labels:
+    app: events-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: events-app
+  template:
+    metadata:
+      labels:
+        app: events-app
+    spec:
+      initContainers:
+        - name: wait-for-db
+          image: busybox
+          command: ['sh', '-c', 'until nc -z events-db 5432; do echo waiting for db; sleep 2; done;']
+      containers:
+        - name: events-app
+          image: anikolovska/events-app:latest
+          ports:
+            - containerPort: 9091
+          envFrom:
+            - configMapRef:
+                name: events-app-config
+            - secretRef:
+                name: events-app-secrets
+
