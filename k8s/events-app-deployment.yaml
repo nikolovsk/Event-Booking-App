@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: events-app
+  namespace: events-namespace
   labels:
     app: events-app
 spec:
