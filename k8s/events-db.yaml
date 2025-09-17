@@ -1,20 +1,29 @@
+---
 apiVersion: v1
-kind: Service
+kind: Secret
 metadata:
-  name: events-db
+  name: events-db-secrets
   namespace: events-namespace
-spec:
-  ports:
-    - port: 5432
-  selector:
-    app: events-db
+type: Opaque
+stringData:
+  POSTGRES_USER: wp
+  POSTGRES_PASSWORD: wp123
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: events-db-config
+  namespace: events-namespace
+data:
+  POSTGRES_DB: events
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: events-db
   namespace: events-namespace
 spec:
+  serviceName: "events-db"
   replicas: 1
   selector:
     matchLabels:
@@ -25,20 +34,47 @@ spec:
         app: events-db
     spec:
       containers:
-        - name: postgres
-          image: postgres:17
-          env:
-            - name: POSTGRES_USER
-              value: "wp"
-            - name: POSTGRES_PASSWORD
-              value: "wp123"
-            - name: POSTGRES_DB
-              value: "events"
-          ports:
-            - containerPort: 5432
-          volumeMounts:
-            - name: postgres-data
-              mountPath: /var/lib/postgresql/data
-      volumes:
+      - name: postgres
+        image: postgres:17
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: events-db-secrets
+              key: POSTGRES_USER
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: events-db-secrets
+              key: POSTGRES_PASSWORD
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              name: events-db-config
+              key: POSTGRES_DB
+        volumeMounts:
         - name: postgres-data
-          emptyDir: {}
+          mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+  - metadata:
+      name: postgres-data
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: events-db
+  namespace: events-namespace
+spec:
+  ports:
+  - port: 5432
+  clusterIP: None
+  selector:
+    app: events-db
+
