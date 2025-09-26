@@ -4,8 +4,8 @@ services:
     image: postgres:17
     container_name: wp2024_events
     environment:
-      POSTGRES_USER: wp
-      POSTGRES_PASSWORD: wp123
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: events
     ports:
       - "5432:5432"
@@ -22,7 +22,7 @@ services:
       - "9091:9091"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://wp-db:5432/events
-      SPRING_DATASOURCE_USERNAME: wp
-      SPRING_DATASOURCE_PASSWORD: wp123
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
       SPRING_PROFILES_ACTIVE: prod
     restart: unless-stopped
