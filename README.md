@@ -179,16 +179,16 @@ Kubernetes манифестите, пак, за оркестрирање на а
 помеѓу модулите, односно компонентите на Kubernetes кластерот и кажува дека 
 апликацијата која што се стартува на порта 9091 е достапна на сервисот мапиран 
 на порта 80.  
-<img width="311" height="262" alt="22" src="https://github.com/user-attachments/assets/8ae711b2-36cf-491e-901a-3bd0d8594b88" />
+<img width="311" height="262" alt="22" src="https://github.com/user-attachments/assets/8ae711b2-36cf-491e-901a-3bd0d8594b88" />  
 
 Во продолжение е прикажан и deployment манифестот, кој обезбедува достапност на 
-апликацијата преку повеќе реплики.
-<img width="690" height="500" alt="21" src="https://github.com/user-attachments/assets/fdee2f04-5d70-4d85-9659-046a1d4c90cb" />
+апликацијата преку повеќе реплики.  
+<img width="690" height="500" alt="21" src="https://github.com/user-attachments/assets/fdee2f04-5d70-4d85-9659-046a1d4c90cb" />  
 
 Следува Ingress манифестот , кој што овозможува надворешен пристап до 
 апликацијата преку HTTP/HTTPS и сите барања на патеката / ќе ги препраќа на сервисот што 
 работи на порта 80.  
-<img width="378" height="400" alt="23" src="https://github.com/user-attachments/assets/82a6e0b0-5252-4354-aaab-64d2cbb33bb6" />
+<img width="378" height="400" alt="23" src="https://github.com/user-attachments/assets/82a6e0b0-5252-4354-aaab-64d2cbb33bb6" />  
 
 ConfigMap, за чување на конфигурациски податоци кои не се чувствителни 
 (на пр. URL на сервисите, параметри на апликацијата).  
@@ -196,7 +196,7 @@ ConfigMap, за чување на конфигурациски податоци 
 
 Secrets, кои се користат за чување на чувствителни информации, како што 
 се database credentials и сл.  
-<img width="270" height="300" alt="25" src="https://github.com/user-attachments/assets/ecb28ceb-e617-441d-8060-a71d2bdb80fd" />
+<img width="270" height="300" alt="25" src="https://github.com/user-attachments/assets/ecb28ceb-e617-441d-8060-a71d2bdb80fd" />  
 
 Во events-db.yaml, пак, се дефинирани Service, ConfigMap, Secrets, како и StatefulSet, кои се 
 однесуваат на базата на податоци, содржат конфигурациски параметри и database 
