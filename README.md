@@ -23,7 +23,7 @@ Event Booking Application претставува веб базирана апл�
 со информациите за настаните и нивните локации, корисниците, како и 
 резервациите  
 • Containerization: Docker и Docker Compose, за контејнеризација на сервисите  
-• Orchestration: Kubernetes, со примена на Deployment, Service, Ingress и StatefulSet 
+• Orchestration: Kubernetes, со примена на Deployment, Service и Ingress 
 манифести, како и ConfigMaps и Secrets за управување со конфигурациите  
 • Систем за верзионирање: GitHub 
 
@@ -45,9 +45,7 @@ Back-end делот е развиен со користење на Java и Sprin
 Deployment-от на целата апликација е извршен во Kubernetes кластер, во кој 
 компонентите се организирани преку Deployments за апликацискиот дел, Services за 
 овозможување на комуникација помеѓу модулите и Ingress за овозможување на 
-надворешен пристап кон апликацијата. Дополнително, за управување со базата на 
-податоци е искористен StatefulSet, кој што обезбедува стабилност и перзистентност на 
-податоците (заштита од губење), додека во рамки на back-end делот се искористени 
+надворешен пристап кон апликацијата. Дополнително, искористени се
 ConfigMaps и Secrets за безбедно управување со конфигурациските параметри и 
 чувствителните информации, како што се податоци за најава, лозинки и credentials за 
 пристап до базата на податоци.   
@@ -163,8 +161,8 @@ HTTP барања, редиректирање и враќање соодветн
 конфигурацијата за контејнеризирање на апликацијата, односно содржи податоци за 
 име на контејнерите на апликацијата и базата, порти на кои ќе бидат достапни, 
 environment variables, images што ќе ги користат и сл.  
-<img width="465" height="305" alt="19" src="https://github.com/user-attachments/assets/d23bded4-de69-4c55-9807-0aa03205bcf4" />
-<img width="742" height="772" alt="20" src="https://github.com/user-attachments/assets/7e0f1b56-efa5-4cb3-8cd6-62a1443b67b3" />
+<img width="340" height="225" alt="19" src="https://github.com/user-attachments/assets/d23bded4-de69-4c55-9807-0aa03205bcf4" />  
+<img width="500" height="520" alt="29" src="https://github.com/user-attachments/assets/57891d63-b4bd-4645-a8c1-aaa6f1afd01a" />
 
 Дополнително, со помош на  GitHub Actions платформата за континуирана интеграција, 
 сетиран е pipeline за целосно CI решение, така што со правење push на git, 
@@ -179,30 +177,30 @@ Kubernetes манифестите, пак, за оркестрирање на а
 
 На сликата што следи е даден service манифестот, кој ја овозможува комуникацијата 
 помеѓу модулите, односно компонентите на Kubernetes кластерот и кажува дека 
-аплкацијата која што се стартува на порта 9091 е достапна на сервисот мапиран 
+апликацијата која што се стартува на порта 9091 е достапна на сервисот мапиран 
 на порта 80.  
-<img width="411" height="362" alt="22" src="https://github.com/user-attachments/assets/8ae711b2-36cf-491e-901a-3bd0d8594b88" />
+<img width="311" height="262" alt="22" src="https://github.com/user-attachments/assets/8ae711b2-36cf-491e-901a-3bd0d8594b88" />  
 
 Во продолжение е прикажан и deployment манифестот, кој обезбедува достапност на 
-апликацијата преку повеќе реплики.
-<img width="1090" height="857" alt="21" src="https://github.com/user-attachments/assets/fdee2f04-5d70-4d85-9659-046a1d4c90cb" />
+апликацијата преку повеќе реплики.  
+<img width="690" height="500" alt="21" src="https://github.com/user-attachments/assets/fdee2f04-5d70-4d85-9659-046a1d4c90cb" />  
 
 Следува Ingress манифестот , кој што овозможува надворешен пристап до 
 апликацијата преку HTTP/HTTPS и сите барања на патеката / ќе ги препраќа на сервисот што 
 работи на порта 80.  
-<img width="578" height="552" alt="23" src="https://github.com/user-attachments/assets/82a6e0b0-5252-4354-aaab-64d2cbb33bb6" />
+<img width="378" height="400" alt="23" src="https://github.com/user-attachments/assets/82a6e0b0-5252-4354-aaab-64d2cbb33bb6" />  
 
 ConfigMap, за чување на конфигурациски податоци кои не се чувствителни 
 (на пр. URL на сервисите, параметри на апликацијата).  
-<img width="745" height="197" alt="24" src="https://github.com/user-attachments/assets/8515a2ce-ff4e-4897-ad63-a8e4f794c561" />
+<img width="470" height="130" alt="24" src="https://github.com/user-attachments/assets/8515a2ce-ff4e-4897-ad63-a8e4f794c561" />
 
 Secrets, кои се користат за чување на чувствителни информации, како што 
 се database credentials и сл.  
-<img width="451" height="250" alt="25" src="https://github.com/user-attachments/assets/ecb28ceb-e617-441d-8060-a71d2bdb80fd" />
+<img width="270" height="300" alt="25" src="https://github.com/user-attachments/assets/ecb28ceb-e617-441d-8060-a71d2bdb80fd" />  
 
-Во events-db.yaml, пак, се дефинирани Service, ConfigMap, Secrets, како и StatefulSet, кои се 
-однесуваат на базата на податоци и содржат конфигурациски параметри и database 
+Во events-db.yaml, пак, се дефинирани Service, ConfigMap, Secrets, кои се 
+однесуваат на базата на податоци, содржат конфигурациски параметри и database 
 credentialѕ и истите може да ги видиме подетално во продолжение.  
-<img width="447" height="827" alt="26" src="https://github.com/user-attachments/assets/b765de55-b032-430c-8ce9-feadf559213c" />
-<img width="543" height="853" alt="27" src="https://github.com/user-attachments/assets/75f1366b-ab70-4878-813f-ac21c3f3bb1d" />
-<img width="452" height="492" alt="28" src="https://github.com/user-attachments/assets/7ad0c2fb-0d60-44c2-952c-12f17114d517" />
+<img width="300" height="600" alt="26" src="https://github.com/user-attachments/assets/b765de55-b032-430c-8ce9-feadf559213c" />  
+<img width="343" height="573" alt="27" src="https://github.com/user-attachments/assets/75f1366b-ab70-4878-813f-ac21c3f3bb1d" />  
+<img width="300" height="350" alt="28" src="https://github.com/user-attachments/assets/7ad0c2fb-0d60-44c2-952c-12f17114d517" />
