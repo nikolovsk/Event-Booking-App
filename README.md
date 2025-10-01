@@ -198,7 +198,7 @@ Secrets, кои се користат за чување на чувствите�
 се database credentials и сл.  
 <img width="270" height="300" alt="25" src="https://github.com/user-attachments/assets/ecb28ceb-e617-441d-8060-a71d2bdb80fd" />  
 
-Во events-db.yaml, пак, се дефинирани Service, ConfigMap, Secrets, како и StatefulSet, кои се 
+Во events-db.yaml, пак, се дефинирани Service, ConfigMap, Secrets, кои се 
 однесуваат на базата на податоци, содржат конфигурациски параметри и database 
 credentialѕ и истите може да ги видиме подетално во продолжение.  
 <img width="300" height="600" alt="26" src="https://github.com/user-attachments/assets/b765de55-b032-430c-8ce9-feadf559213c" />  
